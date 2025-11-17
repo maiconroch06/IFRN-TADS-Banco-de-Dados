@@ -176,3 +176,67 @@ TRUNCATE TABLE cursos; -- Pode usar apenas TRUNCATE cursos
 
 -- Exibe todos os registros da tabela (após exclusões ou alterações)
 SELECT * FROM cursos;
+
+################################################################
+# Comandos SELECT
+################################################################
+
+-- Selecione todos os campos da tabela cursos em ordem alfabetica
+select * from cursos
+order by nome;
+
+-- Selecione todos os campos da tabela cursos em ordem descendente
+select * from cursos
+order by nome desc;
+
+-- Selecione todos os campos da tabela cursos em ordem ascendente
+select * from cursos
+order by nome asc;
+
+-- Selecionado por colunas
+select nome, carga, ano from cursos
+order by nome;
+select ano, carga, nome from cursos
+order by ano;
+select ano, carga, nome from cursos
+order by ano, nome;
+
+-- Selecionado por linhas
+select * from cursos
+where ano = '2016'
+order by ano, nome;
+
+-- Selecionado por colunas e linhas
+select nome, descricao, ano from cursos
+where ano <= '2016'
+order by ano, nome;
+
+select nome, descricao, ano from cursos
+where ano < '2016'
+order by ano, nome;
+
+select nome, descricao, ano from cursos
+where ano != '2016'
+order by ano, nome;
+
+select nome, descricao, ano from cursos
+where ano <> '2016'
+order by ano, nome;
+
+select nome, ano from cursos
+where ano between '2014' and '2016'
+order by ano desc, nome asc;
+
+-- Selecionando valores
+select id_curso, nome from cursos
+where ano in (2014, 2016, 2020)
+order by nome asc;
+
+-- Selecionando valores com operadores
+select nome, carga, totaulas from cursos
+where carga >= 30 and totaulas < 30 
+order by nome asc;
+
+select nome, carga, totaulas from cursos
+where carga >= 30 or totaulas < 30 
+order by nome asc;
