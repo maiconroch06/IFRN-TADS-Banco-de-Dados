@@ -1,4 +1,4 @@
-# Conteudo base #
+# Conteudo Anterior - comandos DDL #
 create database escola;
 use escola;
 create table alunos (
