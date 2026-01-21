@@ -237,6 +237,8 @@ PEDIDOS p ON
 c.id_cliente = p.id_cliente;
 # Todo pedido e não necessariamente que tenha um cliente registrado aparece.
 
+
+
 -- Somente oq tem em A sem interceção
 SELECT * FROM
 clientes c LEFT JOIN
@@ -250,4 +252,63 @@ clientes c RIGHT JOIN
 PEDIDOS p ON
 c.id_cliente = p.id_cliente
 where c.nome is null;
-#
+
+
+#Função de contador? select COUNT(*) AS total_clientes_acima_25
+#select SUM(p.valor) as spma_pedido_30
+
+#exercicio de exibir idades apenas com duas pessoas a mais
+SELECT idade, count(*) as total
+From clientes
+group by idade
+having count(*) > 1;
+#whare n vai funcionar pq trabalha com linhas, o having é a melhor solução pois filtra os dados em grupo
+
+#exercicio de exibir idades apenas com duas pessoas a mais que a idade seja acima de 30 anos
+SELECT idade, count(*) as total
+From clientes
+where idade > 30
+group by idade
+having count(*) > 1;
+
+#exercicio para exibir idades de quem tem idade acima media da media de todos
+SELECT nome, idade
+From clientes
+where idade > (
+	select avg(idade)
+    from clientes
+);
+
+#Exercicio - Clientes que gastaram mais que a media dos clientes - tentativa
+SELECT * FROM
+clientes c INNER JOIN
+PEDIDOS p ON
+c.id_cliente = p.id_cliente
+where p.valor > (
+	select avg(idade)
+    from clientes
+);
+ #resposta do prof
+Select cliente.nome, SUM(pedidos.valor) as total_gasto
+from clientes c join pedidos p on
+c.id_cliente, c.nome
+having total_gasto > (
+	select avg(valor)
+    from pedidos
+);
+
+# Qual o valor total de todos os pedidos?
+Select SUM(p.valor) From pedidos p;
+
+# Qual o valor medio de todos os pedidos?
+Select avg(p.valor) from pedidos p;
+
+# Qual o valor total de todos os pedidos na qual existe clientes validos?
+Select sum(p.valor) From clientes c join pedidos p on c.id_cliente = p.id_cliente;
+
+# Liste apenas os clientes que fizeram mais de 5 pedidos
+Select c.id_cliente, c.nome, count(*) as cont_pedidos From
+clientes c join pedidos p on
+c.id_cliente = p.id_cliente
+group by c.id_cliente, c.nome
+having cont_pedidos > 5;
