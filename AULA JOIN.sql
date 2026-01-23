@@ -233,25 +233,23 @@ c.id_cliente = p.id_cliente;
 -- RIGHT join
 SELECT * FROM
 clientes c RIGHT JOIN -- O right pega a interceção, porém, também pega os valores do conjunto de B.
-pedidos p ON
-c.id_cliente = p.id_cliente;
+pedidos p
+ON c.id_cliente = p.id_cliente;
 # Todo pedido e não necessariamente que tenha um cliente registrado aparece.
 
 
 
 -- Somente oq tem em A sem interceção
 SELECT * FROM
-clientes c LEFT JOIN
-pedidos p ON
-c.id_cliente = p.id_cliente
+clientes c LEFT JOIN pedidos p
+ON c.id_cliente = p.id_cliente
 where p.id_pedido is null;
 
 # Exibe somente os valores vazios em na tabela pedidos onde o id_pedido é vazio.
 
 SELECT * FROM
-clientes c RIGHT JOIN
-pedidos p ON
-c.id_cliente = p.id_cliente
+clientes c RIGHT JOIN pedidos p
+ON c.id_cliente = p.id_cliente
 where c.nome is null;
 
 
@@ -280,22 +278,18 @@ where idade > (
     from clientes
 );
 
-#Exercicio - Clientes que gastaram mais que a media dos clientes - tentativa
-SELECT * FROM
-clientes c INNER JOIN
-PEDIDOS p ON
-c.id_cliente = p.id_cliente
-where p.valor > (
-	select avg(idade)
-    from clientes
-);
-#resposta do prof?
-Select cliente.nome, SUM(pedidos.valor) as total_gasto
-from clientes c join pedidos p on
-c.id_cliente, c.nome
-having total_gasto > (
-	select avg(valor)
-    from pedidos
+#Exercicio - Clientes que gastaram mais que a media dos clientes - tentativa, q ta errada
+SELECT c.nome, SUM(p.valor) AS total_gasto
+FROM clientes c
+JOIN pedidos p ON c.id_cliente = p.id_cliente
+GROUP BY c.nome
+HAVING SUM(p.valor) > (
+    SELECT AVG(total_cliente)
+    FROM (
+        SELECT SUM(valor) AS total_cliente
+        FROM pedidos
+        GROUP BY id_cliente
+    ) t
 );
 
 # Qual o valor total de todos os pedidos?
@@ -313,66 +307,3 @@ clientes c join pedidos p on
 c.id_cliente = p.id_cliente
 group by c.id_cliente, c.nome
 having cont_pedidos > 5;
-
-               -- Lista de Exercicio --
-# 1. Liste os clientes com idade maior ou igual a 30.
-select nome, idade
-from clientes
-where idade >= 30;
-
-# 2. Liste apenas o nome e a cidade dos clientes
-select nome, idade from clientes;
-
-# 3. Liste os pedidos com valor maior que 70.
-select * from pedidos
-where valor > 70;
-
-# 4. Liste o nome do cliente e o valor do pedido (apenas pedidos com cliente válido).
-select c.nome, p.valor
-from clientes c join pedidos p on
-c.id_cliente = p.id_cliente;
-
-# 5. Liste o nome, idade e data do pedido.
-select c.nome, c.idade, p.data_pedido
-from clientes c join pedidos p on
-c.id_cliente = p.id_cliente;
-
-# 6. Liste os pedidos que não possuem cliente (id_cliente IS NULL).
-select *
-from clientes c right join pedidos p on
-c.id_cliente = p.id_cliente
-where p.id_cliente is null;
-
-# tem mais simples mas n tão recomendada - select * from pedidos where id_cliente is null;
-
-# 7. Liste todos os clientes, mesmo os que nunca fizeram pedido.
-select *
-from clientes c left join pedidos p on
-c.id_cliente = p.id_cliente;
-
-# ! 8. Liste os clientes que nunca fizeram pedido.
-select c.*
-from clientes c left join pedidos p on
-c.id_cliente = p.id_cliente
-where p.id_cliente is null;
-
-# 9. Quantos clientes existem no total?
-select count(all *) from clientes;
-
-# 10. Qual o valor total de todos os pedidos?
-select sum(valor) from pedidos;
-
-# 11. Qual o valor total gasto por cada cliente?
-select c.nome, sum(valor)
-from clientes c join pedidos p
-on c.id_cliente = p.id_cliente
-group by c.nome;
-
--- o group by ele serve para filtrar dados por determinada tabela, geralmente quando existe uma condição onde é "modificado"
--- os dados cadastrados no banco. No caso de filtragem desses dados, eu utilizo o having.
-
-# 12. Quantos pedidos foram feitos por clientes com idade entre 25 e 35?
-# 13. Qual o valor total dos pedidos feitos por clientes acima de 30 anos?
-# 14. Liste clientes cujo valor total gasto seja maior que 300.
-# 15. Liste os clientes com idade acima da idade média.
-# 16. Liste os clientes que fizeram mais pedidos que a média de pedidos por cliente.
