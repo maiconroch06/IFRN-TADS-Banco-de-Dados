@@ -91,7 +91,7 @@ insert into aluno (nome, matricula, email, telefone) values
 ('João Pedro', 201, 'joao.pedro@ifrn.edu.br', '(84) 11111-1111'),
 ('Maria Clara', 202, 'maria.clara@ifrn.edu.br', '(84) 22222-2222'),
 ('Lucas Henrique', 203, 'lucas.henrique@ifrn.edu.br', '(84) 33333-3333'),
-('Maria Aneliece', 204, 'maria.anelice@ifrn.edu.br', '(84) 44444-4444'),
+('Maria Anelice', 204, 'maria.anelice@ifrn.edu.br', '(84) 44444-4444'),
 ('Marcos Avelino', 205, 'marcos.avelino@ifrn.edu.br', '(84) 555555-5555'),
 ('Maurício Souza', 206, 'mauricio.souza@ifrn.edu.br', '(84) 66666-66666'),
 ('Maicon Rocha', 207, 'maicon.rocha@ifrn.edu.br', '(84) 77777-7777'),
@@ -156,17 +156,13 @@ FROM emprestimo;
 
 
 
-desc livro;
-desc bibliotecario;
-desc aluno;
 
-TRUNCATE TABLE aluno;
+
+
 
 select * from livro;
 select * from bibliotecario;
 select * from aluno;
-
-
 
 				-- Aparenetemente a tabela de emprestimo esta fora das 3FN --
 # 1FN: penalidade depende de data_devolucao e data_devolucao_efetiva para existir
